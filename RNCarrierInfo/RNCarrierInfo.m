@@ -23,21 +23,12 @@ RCT_EXPORT_METHOD(allowsVOIP:(RCTResponseSenderBlock)callback)
 
 RCT_EXPORT_METHOD(carrierName:(RCTResponseSenderBlock)callback)
 {
-    
     CTTelephonyNetworkInfo *nInfo = [[CTTelephonyNetworkInfo alloc] init];
-    NSString *carrierName = [nInfo subscriberCellularProvider];
-    if(carrierName)
-    {
-        NSString *mcc = [carrier mobileCountryCode];
-        NSString *mnc = [carrier mobileNetworkCode];
-        NSString *str = [NSString stringWithFormat: @"%@%@", mcc, mnc];
+    NSString *mnc = [[nInfo subscriberCellularProvider] mobileNetworkCode];
+    NSString *mcc = [[nInfo subscriberCellularProvider] mobileCountryCode];
+    NSString *str = [NSString stringWithFormat: @"%@%@", mcc, mnc];
+    callback(@[str]);
 
-        callback(@[str]);
-    }
-    else
-    {
-        callback(@[@"nil"]);
-    }
 }
 
 RCT_EXPORT_METHOD(isoCountryCode:(RCTResponseSenderBlock)callback)
